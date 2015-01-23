@@ -1,0 +1,56 @@
+﻿@{
+  Layout = "Layout.cshtml";
+}
+
+<div class="col-md-12">
+  <div id="product-create-box" class="panel panel-info col-md-6">
+
+    <div class="panel-heading">
+      <div class="panel-title">Create a new product</div>
+    </div>
+
+    <div class="panel-body">
+
+    <form id="createProductForm" action="#" method="POST" class="form-horizontal">
+
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-bullhorn"></i></span>
+          <input id="newProductName" type="text" class="form-control" name="name" required placeholder="Name of product" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-certificate"></i></span>
+          <textarea id="newProductDescription" class="form-control" name="description" placeholder="Description of product"></textarea>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-success btn-lg btn-block" >
+        Make your new product
+        <span class="glyphicon glyphicon-ok-circle"></span>
+      </button>
+
+    </form> 
+
+    </div>
+  </div>
+</div>
+
+@section Scripts{
+  <script type="text/javascript">
+    $('#createProductForm').submit(function(e) {
+      e.preventDefault();
+      e.returnValue = false;
+      var product = { name: $('#newProductName').val(), description: $('#newProductDescription').val() };
+      $.post('create', product, function() {
+        window.location.href = '~/products';
+      });
+      //    $.ajax({
+      //      type: "POST",
+      //      url: "~/products/create"
+      //    });
+    });
+  </script>
+}

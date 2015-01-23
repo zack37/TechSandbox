@@ -1,0 +1,46 @@
+﻿@inherits NancyRazorViewBase<dynamic>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>@ViewBag.Title</title>
+  <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="http://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.css" rel="stylesheet"/>
+  <link href="http://cdn.datatables.net/1.10.4/css/jquery.dataTables.min.css" rel="stylesheet"/>
+  <link href="~/Content/styles/bootstrap-slate.min.css" rel="stylesheet" />
+  <link href="~/Content/styles/site.css" rel="stylesheet" type="text/css" />
+  <link href="~/Content/styles/sticky-footer.css" rel="stylesheet" />
+</head>
+<body>
+
+  @Html.Partial("_Navbar.cshtml")
+
+  <div class="container" id="body-container">
+
+    @RenderBody()
+  </div>
+
+  @Html.Partial("_Footer.cshtml")
+
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="http://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+  <script src="http://fb.me/react-0.12.2.js"></script>
+  <script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+  <script src="~/Scripts/jquery-1.6.4.min.js"></script>
+  <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+  <script src="~/signalr/hubs"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('#productListTable').DataTable();
+    });
+
+    (function() {
+      $.connection.hub.start().done(function() {
+        console.log($.connection.hub.id);
+      });
+    })();
+
+  </script>
+  @RenderSection("Scripts", false)
+</body>
+</html>

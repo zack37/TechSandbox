@@ -1,0 +1,56 @@
+﻿@inherits NancyRazorViewBase<ECommerceFX.Web.ViewModels.LoginIndexViewModel>
+
+@{
+  Layout = "Layout.cshtml";
+}
+
+<div class="col-md-12">
+  <div id="login-box" class="panel panel-info col-md-6">
+
+    <div class="panel-heading">
+      <div class="panel-title">Login</div>
+    </div>
+
+    <div class="panel-body">
+
+      @Html.Partial("_ValidationErrors.cshtml", Model.Errors)
+
+      <form id="login-form" class="form-horizontal" action="~/users/login" method="POST">
+
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"> <i class="glyphicon glyphicon-user"></i> </span>
+            <input id="username" class="form-control" type="text" name="username" placeholder="Username">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+            <input id="password" class="form-control" type="password" name="password" placeholder="Password" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <button class="btn btn-success btn-lg btn-block" type="submit">
+            Submit
+          </button>
+        </div>
+
+      </form>
+
+      <div class="form-group">
+        <div style="border-top: 1px solid #888; padding-top: 15px; font-size: 85%">
+          Don't have an account?
+          <a href="#" onclick="$('#login-box').hide(); $('#test-span').show();">Register</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<a href="#" id="test-span" style="display: none;" onclick="$('#login-box').show(); $('#test-span').hide();">
+  Bring back the login form
+</a>
