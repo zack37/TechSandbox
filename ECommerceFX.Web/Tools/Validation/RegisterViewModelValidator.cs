@@ -6,26 +6,26 @@ namespace ECommerceFX.Web.Tools.Validation
 {
     public class RegisterViewModelValidator : AbstractValidator<RegisterViewModel>
     {
-        public RegisterViewModelValidator(IUserService userService)
+        public RegisterViewModelValidator(IUserDataService userService)
         {
             RuleFor(x => x.Username)
                 .NotNull()
                 .NotEmpty()
                 .WithMessage("Username must have a value")
-                .Length(8, 32)
+                .Length(0, 32)
                 .WithMessage("Username must be between 8 and 32 characters")
                 .Matches(ValidationConstants.Username)
-                .WithMessage("Username can only contain letters, numbers, underscores, and periods")
-                .Must(x => !userService.UserExistsByUsername(x))
-                .WithMessage("Username already exists");
+                .WithMessage("Username can only contain letters, numbers, underscores, and periods");
+//                .Must(x => !userService.UserExistsByUsername(x))
+//                .WithMessage("Username already exists");
 
             RuleFor(x => x.Email)
                 .NotNull()
                 .NotEmpty()
                 .WithMessage("Email must have a value")
-                .EmailAddress()
-                .Must(x => !userService.UserExistsByEmail(x))
-                .WithMessage("Email already exists");
+                .EmailAddress();
+//                .Must(x => !userService.UserExistsByEmail(x))
+//                .WithMessage("Email already exists");
 
             RuleFor(x => x.Password)
                 .NotNull()

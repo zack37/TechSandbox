@@ -7,7 +7,7 @@ namespace ECommerceFX.Web.Tools.Validation
 {
     public class LoginViewModelValidator : AbstractValidator<LoginViewModel>
     {
-        public LoginViewModelValidator(IUserService userService)
+        public LoginViewModelValidator(IUserDataService userService)
         {
             var isValid = true;
 

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using ECommerceFX.Web.Tools;
 using Nancy;
 using Nancy.ErrorHandling;
 using Nancy.ViewEngines;
@@ -10,7 +11,7 @@ namespace ECommerceFX.Web
 {
     public class ErrorHandler : DefaultViewRenderer, IStatusCodeHandler
     {
-        private readonly IEnumerable<HttpStatusCode> _supportedStatusCodes;
+        private readonly ISet<HttpStatusCode> _supportedStatusCodes;
 
         public ErrorHandler(IViewFactory factory)
             : base(factory)
@@ -19,9 +20,10 @@ namespace ECommerceFX.Web
                 .GetFiles(Path.Combine(HttpRuntime.AppDomainAppPath, "Views", "Errors"))
                 .Select(x =>
                 {
-                    var fileName = Path.GetFileNameWithoutExtension(x);
+                    var fileName = Path.GetFileNameWithoutExtension(x) ?? "404";
                     return (HttpStatusCode) int.Parse(fileName);
-                });
+                })
+                .ToHashSet();
         }
 
         public bool HandlesStatusCode(HttpStatusCode statusCode, NancyContext context)

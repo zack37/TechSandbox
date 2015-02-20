@@ -195,12 +195,20 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Consumers\Product\ProductDeletedConsumer.cs" />
+    <Compile Include="Consumers\Product\ProductConsumerBase.cs" />
+    <Compile Include="Consumers\Product\ProductCreatedConsumer.cs" />
     <Compile Include="ProductHub.cs" />
     <Compile Include="DatabaseUser.cs" />
     <Compile Include="ErrorHandler.cs" />
+    <Compile Include="Services\DataService.cs" />
+    <Compile Include="Services\IDataService.cs" />
+    <Compile Include="Services\ProductDataService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Tools\Behaviors\RouteLoggingBehavior.cs" />
     <Compile Include="Tools\EnumerableExtensions.cs" />
+    <Compile Include="Tools\HubProvider.cs" />
+    <Compile Include="Tools\IHubProvider.cs" />
     <Compile Include="UserIdentity.cs" />
     <Compile Include="WebBootstrapper.cs" />
     <Compile Include="Modules\HomeModule.cs" />
@@ -209,12 +217,11 @@
     <Compile Include="Modules\UserModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RazorConfiguration.cs" />
-    <Compile Include="Services\IProductService.cs" />
+    <Compile Include="Services\IProductDataService.cs" />
     <Compile Include="Services\IService.cs" />
-    <Compile Include="Services\IUserService.cs" />
-    <Compile Include="Services\ProductService.cs" />
+    <Compile Include="Services\IUserDataService.cs" />
     <Compile Include="Services\RestService.cs" />
-    <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\UserDataService.cs" />
     <Compile Include="Tools\RouteSegmentConstraints\EmailRouteSegmentConstraint.cs" />
     <Compile Include="Tools\Validation\IModelValidator.cs" />
     <Compile Include="Tools\Validation\LoginViewModelValidator.cs" />

@@ -1,8 +1,9 @@
 using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 
 namespace ECommerceFX.Web
 {
-    public class ProductHub : Hub
-    {
-    }
+    public interface IProductHub : IHub { }
+
+    public class ProductHub : Hub, IProductHub { }
 }

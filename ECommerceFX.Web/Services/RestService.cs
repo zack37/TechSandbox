@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using ECommerceFX.Data;
-using Nancy;
 using NLog;
 using RestSharp;
 
@@ -100,9 +99,9 @@ using RestSharp;
                     EntityName,
                     request.Method,
                     response.Message);
-                throw new RequestExecutionException(new Exception(string.Format("Error occured: {0} - {1}:",
-                    response.StatusCode,
-                    response.Message)));
+//                throw new RequestExecutionException(new Exception(string.Format("Error occured: {0} - {1}:",
+//                    response.StatusCode,
+//                    response.Message)));
             }
             return response.Data;
         }

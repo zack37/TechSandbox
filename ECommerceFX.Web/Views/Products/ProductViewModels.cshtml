@@ -16,17 +16,22 @@
     (function() {
       //$('[data-toggle="tooltip"]').tooltip();
     
-    var productHub, ProductList, ProductBox, ProductRow, ProductCreateForm, productBoxComponent;
+    var productHub, ProductList, ProductBox, ProductRow, ProductCreateForm, productBoxComponent, Panel;
 
       productHub = $.connection.productHub;
       ProductRow = React.createClass({
+        handleDelete: function(e) {
+          e.preventDefault();
+          if(!confirm('Are you sure you want to delete this product?')) return;
+          this.props.onProductDelete(this.props.id);
+        },
         render: function(){
           return (
             <tr>
               <td>{this.props.name}</td>
               <td>{this.props.description}</td>
               <td>
-                <form action={'/products/delete/'+this.props.id} method="POST">
+                <form className="productDeleteForm" onSubmit={this.handleDelete} >
                   <button className="btn btn-danger btn-sm" type="submit" data-toggle="tooltip" data-placement="top" title="Delete" onclick="return confirm('Are you sure you want to delete this product?')">
                     <span className="glyphicon glyphicon-trash"></span>
                   </button>
@@ -50,12 +55,15 @@
             }.bind(this)
           });
         },
-        addNewProduct: function(product, isSourceClient) {
-          if(!isSourceClient) {
-            var products = this.state.data;
-            var newProducts = products.concat([product]);
-            this.setState({data: newProducts});
-          }
+        addNewProduct: function(product) {
+          var products = this.state.data;
+          var newProducts = products.concat([product]);
+          this.setState({data: newProducts});
+        },
+        removeProduct: function(id) {
+          var existingProducts = this.state.data; 
+          var afterRemoved = existingProducts.filter(function(p){ return p.id !== id; });
+          this.setState({data: afterRemoved});
         },
         handleNewProduct: function(product) {
           this.addNewProduct(product, true);
@@ -70,6 +78,19 @@
             }.bind(this)
           });
         },
+        handleProductDelete: function(id) {
+          this.removeProduct(id, true);
+          $.ajax({
+            url: this.props.deleteUrl+'/'+id,
+            dataType: 'json',
+            type: 'POST',
+            data: id,
+            success: function(data){}.bind(this),
+            error: function(xhr, status, err) {
+              console.error(this.props.deleteUrl, status, err.toString());
+            }.bind(this)
+          });
+        },
         getInitialState: function() {
           return {data: []};
         },
@@ -80,9 +101,26 @@
           return( 
           <div className="productBox">
             <h2>Products</h2>
-            <ProductList data={this.state.data} />
+            <ProductList data={this.state.data} onProductDelete={this.handleProductDelete}/>
             <ProductCreateForm onProductCreate={this.handleNewProduct} />
           </div>
+          );
+        }
+      });
+    
+      Panel = React.createClass({
+        render: function(){
+          return (
+            <div className="col-md-12">
+              <div id="product-create-box" className="panel panel-info col-md-12"> 
+                <div className="panel-heading">
+                  <div className="panel-tutle">{this.props.title}</div>
+                </div> 
+                <div className="panel-body"> 
+                  {this.props.children}
+                </div>
+              </div>
+            </div>
           );
         }
       });
@@ -99,20 +137,36 @@
         },
         render: function() {
           return (
-            <form className="productCreateForm" onSubmit={this.handleSubmit}>
-              <input type="text" placeholder="Name" ref="name" />
-              <textarea placeholder="Description..." ref="description" />
-              <input type="submit" value="Create your new product" />
-            </form>
+            <Panel title="Create a new product"> 
+              <form className="productCreateForm" onSubmit={this.handleSubmit}> 
+                <div className="form-group">
+                  <div className="input-group">
+                    <span className="input-group-addon"><i className="glyphicon glyphicon-bullhorn"></i></span>
+                    <input type="text" className="form-control" required placeholder="Name of product" ref="name" />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <div className="input-group">
+                    <span className="input-group-addon"><i className="glyphicon glyphicon-certificate"></i></span>
+                    <textarea className="form-control" required placeholder="Description..." ref="description" ></textarea>
+                  </div>
+                </div>
+                <button type="submit" className="btn btn-success btn-lg btn-block">
+                  Make your new product
+                  <span className="glyphicon glyphicon-ok-circle"></span>
+                </button>
+              </form> 
+            </Panel>
           );
         }
       });
 
       ProductList = React.createClass({
         render: function() {
-          var productRows = this.props.data.map(function(p) {
+          var self = this,
+            productRows = this.props.data.map(function(p) {
             return (
-            <ProductRow key={p.id} id={p.id} name={p.name} description={p.description} />
+            <ProductRow key={p.id} id={p.id} name={p.name} description={p.description} onProductDelete={self.props.onProductDelete} />
             );
           });
           return (
@@ -128,17 +182,28 @@
                 <tbody>
                   {productRows}
                 </tbody>
+                <tfoot>
+                  <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Controls</th>
+                  </tr>
+                </tfoot>
               </table>
             </div>
             );
         }
       });
 
-     productBoxComponent = React.render(<ProductBox getUrl="/products/all" createUrl="/products/create" />, document.getElementById('testPlaceholder'));
+    productBoxComponent = React.render(<ProductBox getUrl="/products/all" createUrl="/products/create" deleteUrl="/products/delete" />, document.getElementById('testPlaceholder'));
 
-      productHub.client.broadcastProductCreated = function(product) {
-        productBoxComponent.addNewProduct(product, false);
-      };
+    productHub.client.broadcastProductCreated = function(product) {
+      productBoxComponent.addNewProduct(product);
+    };
+    
+    productHub.client.broadcastProductDeleted = function(id) {
+      productBoxComponent.removeProduct(id);
+    };
 
     })();
 

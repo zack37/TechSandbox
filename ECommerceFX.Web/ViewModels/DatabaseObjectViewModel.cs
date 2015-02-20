@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using ECommerceFX.Data;
+using Newtonsoft.Json;
 
 namespace ECommerceFX.Web.ViewModels
 {
@@ -8,6 +9,7 @@ namespace ECommerceFX.Web.ViewModels
         where TEntity : class, IEntity, new()
     {
         [ScaffoldColumn(false)]
+        [JsonProperty("id")]
         public Guid Id { get; set; }
 
         public virtual TEntity ToEntity()

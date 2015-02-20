@@ -4,16 +4,18 @@ using ECommerceFX.Web.ViewModels.Products;
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Responses;
+using Nancy.Security;
 
 namespace ECommerceFX.Web.Modules
 {
     public class ProductModule : NancyModule
     {
-        private readonly IProductService _productService;
+        private readonly IProductDataService _productService;
 
-        public ProductModule(IProductService productService)
+        public ProductModule(IProductDataService productService)
             :base("/products")
         {
+            this.RequiresAuthentication();
             _productService = productService;
             Get["/"] = Index;
             Get["/all"] = GetAllProducts;
@@ -67,9 +69,9 @@ namespace ECommerceFX.Web.Modules
 
         public dynamic DeleteProduct(dynamic parameters)
         {
-            var model = this.Bind<ProductViewModel>();
-            _productService.Delete(model.Id);
-            return Response.AsRedirect("~/products");
+            Guid id = parameters.Id;
+            _productService.Delete(id);
+            return HttpStatusCode.OK;
         }
 
         public dynamic Update(dynamic parameters)

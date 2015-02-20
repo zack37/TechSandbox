@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace ECommerceFX.Web.Tools
 {
@@ -9,11 +8,16 @@ namespace ECommerceFX.Web.Tools
     {
         public static IEnumerable<T> Each<T>(this IEnumerable<T> source, Action<T> action)
         {
-            foreach (var item in source)
+            return source.Select(x =>
             {
-                action(item);
-            }
-            return source;
+                action(x);
+                return x;
+            });
+        }
+
+        public static HashSet<TElement> ToHashSet<TElement>(this IEnumerable<TElement> source, IEqualityComparer<TElement> compare = null)
+        {
+            return new HashSet<TElement>(source, compare);
         }
     }
 }

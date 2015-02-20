@@ -16,10 +16,10 @@ namespace ECommerceFX.Web.Modules
 {
     public class UserModule : NancyModule
     {
-        private readonly IUserService _userService;
+        private readonly IUserDataService _userService;
         private readonly IModelValidator _modelValidator;
 
-        public UserModule(IUserService userService, IModelValidator modelValidator)
+        public UserModule(IUserDataService userService, IModelValidator modelValidator)
             : base("/users")
         {
             _userService = userService;
@@ -102,7 +102,7 @@ namespace ECommerceFX.Web.Modules
                 Username = register.Username,
                 Email = register.Email,
                 Password = register.Password,
-                Claims = new List<string> { "user" }
+                Claims = new List<string> { "admin", "user" }
             };
             _userService.Create(newUser);
 

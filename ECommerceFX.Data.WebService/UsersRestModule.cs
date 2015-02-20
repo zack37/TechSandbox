@@ -1,6 +1,8 @@
 ﻿using ECommerceFX.Data.Messages;
 using ECommerceFX.Repository;
 using Nancy;
+using Nancy.Json;
+using Nancy.ModelBinding;
 using HttpStatusCode = System.Net.HttpStatusCode;
 
 namespace ECommerceFX.Data.WebService
@@ -16,6 +18,7 @@ namespace ECommerceFX.Data.WebService
             Get["/"] = All;
             Get["/all"] = All;
             Get["/username/{username}"] = ByUsername;
+            Post["create"] = CreateUser;
         }
 
         public dynamic All(dynamic parameters)
@@ -34,6 +37,14 @@ namespace ECommerceFX.Data.WebService
                 response.StatusCode = HttpStatusCode.NoContent;
             }
             response.Data = user;
+            return response;
+        }
+
+        public dynamic CreateUser(dynamic parameters)
+        {
+            var user = this.Bind<User>();
+            user = _userRepository.Create(user);
+            var response = new RestResponse<User>(user);
             return response;
         }
     }

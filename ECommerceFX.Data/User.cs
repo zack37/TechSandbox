@@ -17,9 +17,9 @@ namespace ECommerceFX.Data
 
         public string Password { get; set; }
 
-        public IEnumerable<string> Claims { get; set; }
+        public List<string> Claims { get; set; }
 
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual List<Product> Products { get; set; }
 
         protected bool Equals(User other)
         {

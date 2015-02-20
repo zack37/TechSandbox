@@ -17,6 +17,7 @@
   <div class="container" id="body-container">
 
     @RenderBody()
+
   </div>
 
   @Html.Partial("_Footer.cshtml")
@@ -36,7 +37,9 @@
 
     (function() {
       $.connection.hub.start().done(function() {
-        console.log($.connection.hub.id);
+        var hubId = $.connection.hub.id;
+        console.log(hubId);
+        $.cookie("signalR-hub-id", hubId);
       });
     })();
 

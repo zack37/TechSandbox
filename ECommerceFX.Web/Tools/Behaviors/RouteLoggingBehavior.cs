@@ -1,4 +1,5 @@
-﻿using Nancy.Authentication.Forms;
+﻿using System.Text;
+using Nancy.Authentication.Forms;
 using Nancy.Bootstrapper;
 using Ninject;
 using NLog;
@@ -13,7 +14,13 @@ namespace ECommerceFX.Web.Tools.Behaviors
         {
             pipelines.BeforeRequest.AddItemToStartOfPipeline(ctx =>
             {
-                Log.Info("Invoking handler at route {0}", ctx.Request.Path);
+                var sb = new StringBuilder();
+                sb.AppendFormat("Invoking handler at route {0}", ctx.Request.Path);
+                if (ctx.CurrentUser != null)
+                {
+                    sb.AppendFormat(" for user {0}", ctx.CurrentUser.UserName);
+                }
+                Log.Info(sb.ToString());
                 return ctx.Response;
             });
         }

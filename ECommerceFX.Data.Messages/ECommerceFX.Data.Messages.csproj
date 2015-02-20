@@ -43,7 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CreateProduct.cs" />
+    <Compile Include="Commands\CreateUser.cs" />
+    <Compile Include="Commands\DeleteProduct.cs" />
+    <Compile Include="Commands\UpdateProduct.cs" />
     <Compile Include="Events\ProductCreated.cs" />
+    <Compile Include="Events\ProductDeleted.cs" />
+    <Compile Include="Events\ProductUpdated.cs" />
+    <Compile Include="Events\UserCreated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\GetAllProductsQuery.cs" />
     <Compile Include="RestResponse.cs" />

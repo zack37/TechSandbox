@@ -78,12 +78,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="HomeModule.cs" />
+    <Compile Include="ProductServiceBusHandler.cs" />
     <Compile Include="ProductsRestModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="UserServiceBusHandler.cs" />
     <Compile Include="UsersRestModule.cs" />
     <Compile Include="WebServiceBootstrapper.cs" />
+    <Compile Include="WebServiceEndpointConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
